@@ -11,7 +11,7 @@ jobs:
   build-linux:
     strategy:
       matrix:
-        distro: [ubuntu:24.04']
+        distro: ['ubuntu:24.04']
         ruby_version: ['3.1.6']
     runs-on: ubuntu-latest
     container:
