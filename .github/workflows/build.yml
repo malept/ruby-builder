@@ -18,6 +18,8 @@ jobs:
       image: ${{ matrix.distro }}
     steps:
       - uses: actions/checkout@v4
+      - name: Setup container
+        run: ./scripts/setup-container.sh ${{ matrix.distro }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
       - uses: asdf-vm/actions/setup@v3
