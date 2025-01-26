@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-set -euo pipefail
+set -e
 
 distro="$1"
 
-distro_name="$(cut -d: -f1 <<<"$distro")"
+distro_name="$(echo "$distro" | cut -d: -f1)"
 #distro_version="$(cut -d: -f2 <<<"$distro")"
 
 case "$distro_name" in
