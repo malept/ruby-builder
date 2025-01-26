@@ -9,7 +9,7 @@ distro_name="$(echo "$distro" | cut -d: -f1)"
 
 case "$distro_name" in
 alpine)
-  apk add curl git build-base bzip2 libffi-dev openssl-dev ncurses-dev gdbm-dev zlib-dev readline-dev yaml-dev
+  apk add bash curl git build-base bzip2 libffi-dev openssl-dev ncurses-dev gdbm-dev zlib-dev readline-dev yaml-dev
   ;;
 ubuntu)
   apt-get update
