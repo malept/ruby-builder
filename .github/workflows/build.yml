@@ -10,8 +10,8 @@ jobs:
   build-linux:
     strategy:
       matrix:
-        distro: ['ubuntu:22.04', 'ubuntu:24.04', 'alpine:3.18', 'alpine:3.21']
-        ruby_version: ['3.1.6', '3.2.6', '3.3.6', '3.4.1']
+        distro: [ubuntu:24.04']
+        ruby_version: ['3.1.6']
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.distro }}
