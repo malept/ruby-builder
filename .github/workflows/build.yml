@@ -35,7 +35,7 @@ jobs:
       - name: Normalized distro
         id: normalized_distro
         run: |
-          echo "value=$(sed -e 's/:/_/g' <<<"${{ matrix.distro }}")" >> "$GITHUB_OUTPUT"
+          echo "value=$(./scripts/normalize_distro.sh "${{ matrix.distro }}")" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         with:
           name: ruby-${{ matrix.ruby_version }}-${{ steps.normalized_distro.outputs.value }}
