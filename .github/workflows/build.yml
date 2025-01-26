@@ -30,3 +30,7 @@ jobs:
           RUBY_CONFIGURE_OPTS: --enable-load-relative
       - name: Ruby version
         run: ruby --version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ruby
+          path: ~/.asdf/installs/ruby/${{ matrix.ruby_version }}
