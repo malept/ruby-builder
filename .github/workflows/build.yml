@@ -34,5 +34,5 @@ jobs:
         run: ./scripts/archive-ruby.sh ${{ matrix.ruby_version }} ${{ matrix.distro }}
       - uses: actions/upload-artifact@v4
         with:
-          name: ruby
+          name: ruby-${{ matrix.ruby_version }}-${{ matrix.distro }}
           path: ruby-${{ matrix.ruby_version }}*.tar.xz
