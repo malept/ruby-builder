@@ -32,7 +32,11 @@ jobs:
         run: ruby --version
       - name: Archive Ruby installation
         run: ./scripts/archive-ruby.sh ${{ matrix.ruby_version }} ${{ matrix.distro }}
+      - name: Normalized distro
+        id: normalized_distro
+        run: |
+          echo "value=$(sed -e 's/:/_/g' <<<"${{ matrix.distro }}")" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         with:
-          name: ruby-${{ matrix.ruby_version }}-${{ matrix.distro }}
+          name: ruby-${{ matrix.ruby_version }}-${{ steps.normalized_distro.outputs.value }}
           path: ruby-${{ matrix.ruby_version }}*.tar.xz
