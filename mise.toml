@@ -1,3 +1,5 @@
 [tools]
 act = "latest"
 actionlint = "latest"
+shellcheck = "latest"
+shfmt = "latest"
