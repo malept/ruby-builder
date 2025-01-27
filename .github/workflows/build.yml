@@ -12,14 +12,15 @@ jobs:
     strategy:
       matrix:
         distro: ['ubuntu:22.04', 'ubuntu:24.04', 'alpine:3.21']
-        ruby_version: ['3.1.6']
+        ruby_version: ['3.1.6', '3.2.6', '3.4.1']
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.distro }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup container
-        run: ./scripts/setup-container.sh ${{ matrix.distro }}
+        id: setup_container
+        run: ./scripts/setup-container.sh ${{ matrix.distro }} ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
       - uses: asdf-vm/actions/setup@v3
@@ -27,7 +28,7 @@ jobs:
         run: asdf plugin add ruby https://github.com/malept/asdf-ruby
       - uses: asdf-vm/actions/install@v3
         env:
-          RUBY_CONFIGURE_OPTS: --enable-load-relative
+          RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.setup_container.outputs.yjit_arg }}
       - name: Ruby version
         run: ruby --version
       - name: Archive Ruby installation
