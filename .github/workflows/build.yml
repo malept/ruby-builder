@@ -27,8 +27,6 @@ jobs:
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
       - uses: asdf-vm/actions/setup@v3
-      - name: Install custom Ruby asdf plugin
-        run: asdf plugin add ruby https://github.com/malept/asdf-ruby
       - uses: asdf-vm/actions/install@v3
         env:
           RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.setup_container.outputs.yjit_arg }}
