@@ -1,3 +1,55 @@
 [tools]
 act = "latest"
 actionlint = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+taplo = "latest"
+
+[tasks.actionlint]
+description = "Lint GitHub Actions workflows"
+run = "actionlint"
+sources = [".github/workflows/*.yml"]
+
+[tasks.fmt]
+depends = ["shfmt", "taplo-format"]
+description = "Reformat source files"
+
+[tasks.lint]
+depends = [
+  "actionlint",
+  "shellcheck",
+  "shfmt-check",
+  "taplo-format-check",
+  "taplo-lint",
+]
+description = "Lint source files"
+
+[tasks.shellcheck]
+description = "Lint shell source files"
+run = "shellcheck scripts/*.sh"
+sources = ["scripts/*.sh"]
+
+[tasks.shfmt]
+description = "Reformat shell source files"
+run = "shfmt --indent 2 scripts/*.sh"
+sources = ["scripts/*.sh"]
+
+[tasks.shfmt-check]
+description = "shfmt (dry run)"
+run = "shfmt --indent 2 --diff scripts/*.sh"
+sources = ["scripts/*.sh"]
+
+[tasks.taplo-format]
+description = "Reformat TOML files"
+run = "taplo format"
+sources = ["**/*.toml"]
+
+[tasks.taplo-format-check]
+description = "Reformat TOML files (dry run)"
+run = "taplo format --check --diff"
+sources = ["**/*.toml"]
+
+[tasks.taplo-lint]
+description = "Lint TOML files"
+run = "taplo lint"
+sources = ["**/*.toml"]

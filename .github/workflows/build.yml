@@ -7,23 +7,44 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
+      - name: Lint
+        run: mise run lint
   build-linux:
+    needs: lint
     strategy:
       matrix:
-        distro: [ubuntu:24.04']
-        ruby_version: ['3.1.6']
+        distro: ['ubuntu:22.04', 'ubuntu:24.04', 'alpine:3.21']
+        ruby_version: ['3.1.6', '3.2.6', '3.3.7', '3.4.1']
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.distro }}
+    permissions:
+      # Needed for release upload
+      contents: write
     steps:
       - uses: actions/checkout@v4
+      - name: Setup container
+        id: setup_container
+        run: ./scripts/setup-container.sh ${{ matrix.distro }} ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
       - uses: asdf-vm/actions/setup@v3
-      - name: Install custom Ruby asdf plugin
-        run: asdf plugin add ruby https://github.com/malept/asdf-ruby
       - uses: asdf-vm/actions/install@v3
         env:
-          RUBY_CONFIGURE_OPTS: --enable-load-relative
+          RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.setup_container.outputs.yjit_arg }}
       - name: Ruby version
         run: ruby --version
+      - name: Archive Ruby installation
+        run: ./scripts/archive-ruby.sh ${{ matrix.ruby_version }} ${{ matrix.distro }}
+      - name: Upload to release
+        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
+        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+        with:
+          files: ruby-${{ matrix.ruby_version }}*.tar.xz
+          fail_on_unmatched_files: true
+          tag_name: binaries
