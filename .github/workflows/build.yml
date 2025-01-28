@@ -7,7 +7,15 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
+      - name: Lint
+        run: mise run lint
   build-linux:
+    needs: lint
     strategy:
       matrix:
         distro: ['ubuntu:22.04', 'ubuntu:24.04', 'alpine:3.21']
