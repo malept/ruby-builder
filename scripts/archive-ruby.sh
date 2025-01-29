@@ -11,7 +11,9 @@ distro="$("$DIR"/normalize_distro.sh "$2")"
 binary_tarball_filename() {
   # Uses short args here because of macOS compatibility. Equivalent
   # long arguments documented in README.md.
-  echo "ruby-${ruby_version}_$(uname -s)-$(uname -m)_${distro}.tar.xz"
+  local kernel
+  kernel="$(uname -s)"
+  echo "ruby-${ruby_version}_${kernel,,}-$(uname -m)_${distro}.tar.xz"
 }
 
 tar_filename="$BUILDER_DIR/$(binary_tarball_filename)"
