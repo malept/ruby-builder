@@ -64,6 +64,8 @@ jobs:
     steps:
       - name: Download Ruby tarballs from artifact repository
         uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
       - name: Generate checksums
         run: |
           shasum --algorithm 256 --binary ruby-*.tar.xz > checksums.txt
