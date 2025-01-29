@@ -3,7 +3,10 @@
 set -eo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-BUILDER_DIR="$DIR/.."
+BUILDER_DIR="$(
+  cd "$DIR"/..
+  pwd -P
+)"
 
 ruby_version="$1"
 distro="$("$DIR"/normalize_distro.sh "$2")"
