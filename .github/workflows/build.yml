@@ -21,6 +21,11 @@ jobs:
         distro: ['ubuntu:22.04', 'ubuntu:24.04', 'alpine:3.21']
         os: ['ubuntu-24.04', 'ubuntu-24.04-arm']
         ruby_version: ['3.1.6', '3.2.6', '3.3.7', '3.4.1']
+        exclude:
+          # Error: JavaScript Actions in Alpine containers are only
+          # supported on x64 Linux runners. Detected Linux Arm64
+          - os: ubuntu-24.04-arm
+            distro: alpine:3.21
     runs-on: ${{ matrix.os }}
     container:
       image: ${{ matrix.distro }}
