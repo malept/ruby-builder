@@ -24,6 +24,7 @@ jobs:
         exclude:
           # Error: JavaScript Actions in Alpine containers are only
           # supported on x64 Linux runners. Detected Linux Arm64
+          # See: https://github.com/actions/runner/issues/801
           - os: ubuntu-24.04-arm
             distro: alpine:3.21
     runs-on: ${{ matrix.os }}
