@@ -30,12 +30,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     container:
       image: ${{ matrix.distro }}
-    permissions:
-      # Needed for release upload
-      contents: write
-      # Needed for build provenance
-      id-token: write
-      attestations: write
     steps:
       - uses: actions/checkout@v4
       - name: Setup container
@@ -61,6 +55,12 @@ jobs:
   upload-tarballs:
     needs: build-linux
     runs-on: ubuntu-24.04
+    permissions:
+      # Needed for release upload
+      contents: write
+      # Needed for build provenance
+      id-token: write
+      attestations: write
     steps:
       - name: Download Ruby tarballs from artifact repository
         uses: actions/download-artifact@v4
