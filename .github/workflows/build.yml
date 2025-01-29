@@ -55,7 +55,8 @@ jobs:
       - name: Upload Ruby tarball as artifact
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ steps.archive_ruby.outputs.ruby_tarball }}
+          name: ${{ steps.archive_ruby.outputs.ruby_tarball_filename }}
+          path: ${{ steps.archive_ruby.outputs.ruby_tarball_path }}
           retention-days: 1
   upload-tarballs:
     needs: build-linux
