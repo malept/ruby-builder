@@ -19,6 +19,6 @@ binary_tarball_filename() {
 tar_filename="$BUILDER_DIR/$(binary_tarball_filename)"
 
 tar --directory="$HOME/.asdf/installs/ruby/$ruby_version" --create \
-  --file "$BUILDER_DIR/$tar_filename" .
+  --file "$tar_filename" .
 
 ls -l "$tar_filename"
