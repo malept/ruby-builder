@@ -22,3 +22,5 @@ tar --directory="$HOME/.asdf/installs/ruby/$ruby_version" --create \
   --file "$tar_filename" .
 
 ls -l "$tar_filename"
+
+echo "ruby_tarball=$tar_filename" >>"$GITHUB_OUTPUT"
