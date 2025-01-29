@@ -16,7 +16,7 @@ ruby-${version}_${os}-${arch}_${distro}-${distro_version}.tar.xz
 where:
 
 * `version`: CRuby version.
-* `os`: The value of `uname -s` (AKA `uname --kernel-name` with GNU coreutils).
+* `os`: The lowercase value of `uname -s` (AKA `uname --kernel-name` with GNU coreutils).
 * `arch`: The value of `uname -m` (AKA `uname --machine` with GNU coreutils).
 * `distro`: The value of the `ID` environment variable when sourced from `/etc/os-release` or similar. Defaults to `unknown` on Linux and `none` on macOS.
 * `distro_version`: The value of the `VERSION_ID` environment variable when sourced from `/etc/os-release` or similar. Defaults to `unknown` on Linux and `none` on macOS.
