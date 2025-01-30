@@ -78,7 +78,7 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
         with:
           files: |
-            ruby-*.tar.xz
             checksums.txt
+            ruby-*.tar.xz
           fail_on_unmatched_files: true
           tag_name: binaries
