@@ -3,7 +3,10 @@
 set -eo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-BUILDER_DIR="$DIR/.."
+BUILDER_DIR="$(
+  cd "$DIR"/..
+  pwd -P
+)"
 
 ruby_version="$1"
 distro="$("$DIR"/normalize_distro.sh "$2")"
@@ -16,9 +19,13 @@ binary_tarball_filename() {
   echo "ruby-${ruby_version}_${kernel,,}-$(uname -m)_${distro}.tar.xz"
 }
 
-tar_filename="$BUILDER_DIR/$(binary_tarball_filename)"
+tarball_filename="$(binary_tarball_filename)"
+tarball_path="$BUILDER_DIR/$tarball_filename"
 
 tar --directory="$HOME/.asdf/installs/ruby/$ruby_version" --create \
-  --file "$tar_filename" .
+  --file "$tarball_path" .
 
-ls -l "$tar_filename"
+ls -l "$tarball_path"
+
+echo "ruby_tarball_filename=$tarball_filename" >>"$GITHUB_OUTPUT"
+echo "ruby_tarball_path=$tarball_path" >>"$GITHUB_OUTPUT"
