@@ -62,7 +62,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Set up macOS
         id: setup
-        run: ./scripts/setup_macos.sh ${{ matrix.ruby_version }}
+        run: ./scripts/setup-macos.sh ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
       - uses: asdf-vm/actions/setup@v3
