@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -e
+
 version="$1"
 major_version="$(echo "$version" | cut -d. -f1)"
 minor_version="$(echo "$version" | cut -d. -f2)"
