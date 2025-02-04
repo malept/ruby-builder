@@ -2,21 +2,11 @@
 
 set -e
 
+DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
+
 distro="$1"
 distro_name="$(echo "$distro" | cut -d: -f1)"
 version="$2"
-major_version="$(echo "$version" | cut -d. -f1)"
-minor_version="$(echo "$version" | cut -d. -f2)"
-
-enable_yjit() {
-  # shellcheck disable=SC2235
-  # Why: don't care about subshell overhead in this case.
-  if test "$major_version" -gt 3 || (test "$major_version" -eq 3 && test "$minor_version" -ge 2); then
-    echo 0
-  else
-    echo 1
-  fi
-}
 
 extra_alpine_pkgs=""
 extra_ubuntu_pkgs=""
@@ -25,7 +15,8 @@ if test -n "$ACT"; then
   extra_alpine_pkgs="$extra_alpine_pkgs nodejs"
   extra_ubuntu_pkgs="$extra_ubuntu_pkgs nodejs"
 fi
-if test "$(enable_yjit)" -eq 0; then
+
+if "$DIR"/enable_yjit.sh "$version"; then
   extra_alpine_pkgs="$extra_alpine_pkgs rust"
   extra_ubuntu_pkgs="$extra_ubuntu_pkgs rustc"
   echo "yjit_arg=--enable-yjit" >>"$GITHUB_OUTPUT"

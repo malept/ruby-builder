@@ -52,6 +52,34 @@ jobs:
           name: ${{ steps.archive_ruby.outputs.ruby_tarball_filename }}
           path: ${{ steps.archive_ruby.outputs.ruby_tarball_path }}
           retention-days: 1
+  build-macos:
+    needs: lint
+    strategy:
+      matrix:
+        ruby_version: ['3.1.6']
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up macOS
+        id: setup
+        run: ./scripts/setup_macos.sh ${{ matrix.ruby_version }}
+      - name: Set up .tool-versions
+        run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
+      - uses: asdf-vm/actions/setup@v3
+      - uses: asdf-vm/actions/install@v3
+        env:
+          RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.setup.outputs.yjit_arg }}
+      - name: Ruby version
+        run: ruby --version
+      - name: Archive Ruby installation
+        id: archive_ruby
+        run: ./scripts/archive-ruby.sh ${{ matrix.ruby_version }} none:none
+      - name: Upload Ruby tarball as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.archive_ruby.outputs.ruby_tarball_filename }}
+          path: ${{ steps.archive_ruby.outputs.ruby_tarball_path }}
+          retention-days: 1
   upload-tarballs:
     needs: build-linux
     runs-on: ubuntu-24.04
