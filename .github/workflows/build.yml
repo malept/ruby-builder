@@ -81,7 +81,7 @@ jobs:
           path: ${{ steps.archive_ruby.outputs.ruby_tarball_path }}
           retention-days: 1
   upload-tarballs:
-    needs: build-linux
+    needs: [build-linux, build-macos]
     runs-on: ubuntu-24.04
     permissions:
       # Needed for release upload
