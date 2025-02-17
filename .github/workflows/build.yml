@@ -46,7 +46,8 @@ jobs:
       - name: Setup SBOM
         id: setup_sbom
         run: ./scripts/setup-sbom.sh ${{ matrix.ruby_version }} ${{ matrix.distro }}
-      - uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
+      - name: Generate SBOM
+        uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
         with:
           artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.setup_sbom.outputs.os }}-${{ steps.setup_sbom.outputs.arch }}_${{ steps.setup_sbom.outputs.distro }}-${{ steps.setup_sbom.outputs.distro_version }}.sbom.spdx.json
           path: ${{ steps.setup_sbom.outputs.ruby_location }}
@@ -83,7 +84,8 @@ jobs:
       - name: Setup SBOM
         id: setup_sbom
         run: ./scripts/setup-sbom.sh ${{ matrix.ruby_version }} none:none
-      - uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
+      - name: Generate SBOM
+        uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
         with:
           artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.setup_sbom.outputs.os }}-${{ steps.setup_sbom.outputs.arch }}_${{ steps.setup_sbom.outputs.distro }}-${{ steps.setup_sbom.outputs.distro_version }}.sbom.spdx.json
           path: ${{ steps.setup_sbom.outputs.ruby_location }}
