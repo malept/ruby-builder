@@ -14,4 +14,4 @@ fi
 
 location="$(asdf where ruby "$expected_version")"
 
-persist_value ruby_location "$location"
+persist_value install_location "$location"
