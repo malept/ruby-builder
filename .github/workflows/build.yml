@@ -74,7 +74,7 @@ jobs:
         run: brew install bash
       - name: Setup variables
         id: variables
-        run: ./scripts/setup-variables.sh ${{ matrix.ruby_version }} none:none
+        run: ./scripts/setup-variables.sh none:none ${{ matrix.ruby_version }}
       - name: Set up macOS
         run: ./scripts/setup-macos.sh ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
