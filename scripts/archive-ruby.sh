@@ -8,15 +8,16 @@ BUILDER_DIR="$(
   pwd -P
 )"
 
-ruby_version="$1"
-distro="$("$DIR"/normalize_distro.sh "$2")"
+distro_name="$1"
+distro_version="$2"
+ruby_version="$3"
 
 binary_tarball_filename() {
   # Uses short args here because of macOS compatibility. Equivalent
   # long arguments documented in README.md.
   local kernel
   kernel="$(uname -s)"
-  echo "ruby-${ruby_version}_${kernel,,}-$(uname -m)_${distro}.tar.xz"
+  echo "ruby-${ruby_version}_${kernel,,}-$(uname -m)_${distro_name}-${distro_version}.tar.xz"
 }
 
 tarball_filename="$(binary_tarball_filename)"

@@ -5,12 +5,14 @@ set -e
 DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
 version="$1"
 
+# shellcheck source=scripts/include/common.sh
+. "$DIR/include/common.sh"
+
 extra_brew_pkgs=""
-if "$DIR"/enable_yjit.sh "$version"; then
+if enable_yjit "$version"; then
   extra_brew_pkgs="$extra_brew_pkgs rust"
-  echo "yjit_arg=--enable-yjit" >>"$GITHUB_OUTPUT"
 fi
 
 # List from: https://github.com/rbenv/ruby-build/wiki#macos
 # shellcheck disable=SC2086
-brew install openssl@3 readline libyaml gmp autoconf bash $extra_brew_pkgs
+brew install openssl@3 readline libyaml gmp autoconf $extra_brew_pkgs
