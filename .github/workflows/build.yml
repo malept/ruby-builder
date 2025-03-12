@@ -32,30 +32,30 @@ jobs:
       image: ${{ matrix.distro }}
     steps:
       - uses: actions/checkout@v4
+      - name: Setup variables
+        id: variables
+        run: ./scripts/setup-variables.sh ${{ matrix.distro }} ${{ matrix.ruby_version }}
       - name: Setup container
-        id: setup_container
-        run: ./scripts/setup-container.sh ${{ matrix.distro }} ${{ matrix.ruby_version }}
+        run: ./scripts/setup-container.sh ${{ steps.variables.outputs.distro_name }} ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
       - uses: asdf-vm/actions/setup@v3
       - uses: asdf-vm/actions/install@v3
         env:
-          RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.setup_container.outputs.yjit_arg }}
+          RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.variables.outputs.yjit_arg }}
       - name: Ruby version
-        run: ruby --version
-      - name: Setup SBOM
-        id: setup_sbom
-        run: ./scripts/setup-sbom.sh ${{ matrix.ruby_version }} ${{ matrix.distro }}
+        id: ruby
+        run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
       - name: Generate SBOM
         uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
         with:
-          artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.setup_sbom.outputs.os }}-${{ steps.setup_sbom.outputs.arch }}_${{ steps.setup_sbom.outputs.distro_name }}-${{ steps.setup_sbom.outputs.distro_version }}.sbom.spdx.json
-          path: ${{ steps.setup_sbom.outputs.ruby_location }}
+          artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.variables.outputs.os }}-${{ steps.variables.outputs.arch }}_${{ steps.variables.outputs.distro_name }}-${{ steps.variables.outputs.distro_version }}.sbom.spdx.json
+          path: ${{ steps.ruby.outputs.install_location }}
           upload-artifact-retention: 1
           upload-release-assets: false
       - name: Archive Ruby installation
         id: archive_ruby
-        run: ./scripts/archive-ruby.sh ${{ matrix.ruby_version }} ${{ matrix.distro }}
+        run: ./scripts/archive-ruby.sh ${{ steps.variables.outputs.distro_name }} ${{ steps.variables.outputs.distro_version }} ${{ matrix.ruby_version }}
       - name: Upload Ruby tarball as artifact
         uses: actions/upload-artifact@v4
         with:
@@ -70,30 +70,32 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Ensure recent bash is installed
+        run: brew install bash
+      - name: Setup variables
+        id: variables
+        run: ./scripts/setup-variables.sh none:none ${{ matrix.ruby_version }}
       - name: Set up macOS
-        id: setup
         run: ./scripts/setup-macos.sh ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
       - uses: asdf-vm/actions/setup@v3
       - uses: asdf-vm/actions/install@v3
         env:
-          RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.setup.outputs.yjit_arg }}
+          RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.variables.outputs.yjit_arg }}
       - name: Ruby version
-        run: ruby --version
-      - name: Setup SBOM
-        id: setup_sbom
-        run: ./scripts/setup-sbom.sh ${{ matrix.ruby_version }} none:none
+        id: ruby
+        run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
       - name: Generate SBOM
         uses: anchore/sbom-action@f325610c9f50a54015d37c8d16cb3b0e2c8f4de0 # v0.18.0
         with:
-          artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.setup_sbom.outputs.os }}-${{ steps.setup_sbom.outputs.arch }}_${{ steps.setup_sbom.outputs.distro_name }}-${{ steps.setup_sbom.outputs.distro_version }}.sbom.spdx.json
-          path: ${{ steps.setup_sbom.outputs.ruby_location }}
+          artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.variables.outputs.os }}-${{ steps.variables.outputs.arch }}_${{ steps.variables.outputs.distro_name }}-${{ steps.variables.outputs.distro_version }}.sbom.spdx.json
+          path: ${{ steps.ruby.outputs.install_location }}
           upload-artifact-retention: 1
           upload-release-assets: false
       - name: Archive Ruby installation
         id: archive_ruby
-        run: ./scripts/archive-ruby.sh ${{ matrix.ruby_version }} none:none
+        run: ./scripts/archive-ruby.sh ${{ steps.variables.outputs.distro_name }} ${{ steps.variables.outputs.distro_version }} ${{ matrix.ruby_version }}
       - name: Upload Ruby tarball as artifact
         uses: actions/upload-artifact@v4
         with:
