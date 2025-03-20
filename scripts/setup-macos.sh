@@ -8,7 +8,7 @@ version="$1"
 # shellcheck source=scripts/include/common.sh
 . "$DIR/include/common.sh"
 
-extra_brew_pkgs=""
+extra_brew_pkgs="xz"
 if enable_yjit "$version"; then
   extra_brew_pkgs="$extra_brew_pkgs rust"
 fi

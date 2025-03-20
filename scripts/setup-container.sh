@@ -11,8 +11,9 @@ DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
 distro_name="$1"
 version="$2"
 
-extra_alpine_pkgs=""
-extra_ubuntu_pkgs=""
+# xz is used for creating the tarballs
+extra_alpine_pkgs="xz"
+extra_ubuntu_pkgs="xz-utils"
 if test -n "$ACT"; then
   # When using act, needs nodejs. Not necessary in hosted GH actions runner.
   extra_alpine_pkgs="$extra_alpine_pkgs nodejs"
