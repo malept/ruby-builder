@@ -8,6 +8,9 @@ BUILDER_DIR="$(
   pwd -P
 )"
 
+# shellcheck source=scripts/include/common.sh
+source "$DIR/include/common.sh"
+
 distro_name="$1"
 distro_version="$2"
 ruby_version="$3"
@@ -23,10 +26,14 @@ binary_tarball_filename() {
 tarball_filename="$(binary_tarball_filename)"
 tarball_path="$BUILDER_DIR/$tarball_filename"
 
-tar --directory="$HOME/.asdf/installs/ruby/$ruby_version" --create \
+tar --xz --directory="$HOME/.asdf/installs/ruby/$ruby_version" --create \
   --file "$tarball_path" .
 
 ls -l "$tarball_path"
 
-echo "ruby_tarball_filename=$tarball_filename" >>"$GITHUB_OUTPUT"
-echo "ruby_tarball_path=$tarball_path" >>"$GITHUB_OUTPUT"
+if ! file "$tarball_path" | grep -q 'XZ compressed data'; then
+  fail "Tarball is not compressed with 'xz'"
+fi
+
+persist_value ruby_tarball_filename "$tarball_filename"
+persist_value ruby_tarball_path "$tarball_path"
