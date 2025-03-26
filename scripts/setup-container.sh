@@ -32,8 +32,16 @@ alpine)
   ;;
 ubuntu)
   apt-get update
+  apt-get install -y curl
+  if test -n "$ACT"; then
+    # Install Node.js LTS from Nodesource for consistency, actions need sufficiently new version
+    # (versus what is in Ubuntu's first party repo)
+    curl -fsSL https://deb.nodesource.com/setup_lts.x -o nodesource_setup.sh
+    bash nodesource_setup.sh
+    rm nodesource_setup.sh
+  fi
   # shellcheck disable=SC2086
-  apt-get install -y git curl autoconf patch build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev $extra_ubuntu_pkgs
+  apt-get install -y git autoconf patch build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev $extra_ubuntu_pkgs
   ;;
 *)
   fail "Unsupported distro ($distro_name)"
