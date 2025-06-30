@@ -147,7 +147,11 @@ jobs:
           subject-checksums: checksums.txt
       - name: Update binaries tag to latest commit in main
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-        run: gh api --method PATCH --field sha=${{ github.sha }} --field force=true /repos/${{ github.repository }}/git/refs/refs/tags/binaries
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git tag --force binaries ${{ github.sha }}
+          git push --force origin binaries
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload to binaries release
