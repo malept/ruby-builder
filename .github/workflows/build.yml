@@ -1,6 +1,6 @@
 name: Build
 env:
-  ruby_versions_to_build: '["3.1.7", "3.2.8", "3.3.8", "3.4.4"]'
+  ruby_versions_to_build: '3.1.7 3.2.8 3.3.8 3.4.4'
 
 on:
   push:
@@ -16,13 +16,29 @@ jobs:
       - uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
       - name: Lint
         run: mise run lint
-  build-linux:
+  generate-matrix:
     needs: lint
+    runs-on: ubuntu-latest
+    outputs:
+      ruby_versions: ${{ steps.generate.outputs.ruby_versions }}
+    steps:
+      - name: Generate JSON
+        id: generate
+        shell: python
+        run: |
+          #!/usr/bin/env python3
+          import json, os
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("ruby_versions=")
+              json.dump(os.environ["ruby_versions_to_build"].split(" "), output)
+              output.write("\n")
+  build-linux:
+    needs: generate-matrix
     strategy:
       matrix:
         distro: ['ubuntu:22.04', 'ubuntu:24.04', 'alpine:3.21']
         os: ['ubuntu-24.04', 'ubuntu-24.04-arm']
-        ruby_version: ${{ fromJson(env.ruby_versions_to_build) }}
+        ruby_version: ${{ fromJson(needs.generate-matrix.outputs.ruby_versions) }}
         exclude:
           # Error: JavaScript Actions in Alpine containers are only
           # supported on x64 Linux runners. Detected Linux Arm64
@@ -65,10 +81,10 @@ jobs:
           path: ${{ steps.archive_ruby.outputs.ruby_tarball_path }}
           retention-days: 1
   build-macos:
-    needs: lint
+    needs: generate-matrix
     strategy:
       matrix:
-        ruby_version: ${{ fromJson(env.ruby_versions_to_build) }}
+        ruby_version: ${{ fromJson(needs.generate-matrix.outputs.ruby_versions) }}
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v4
