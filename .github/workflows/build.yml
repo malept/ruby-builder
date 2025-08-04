@@ -1,6 +1,14 @@
 name: Build
 env:
-  ruby_versions_to_build: '3.1.7 3.2.8 3.3.8 3.4.4'
+  ruby_versions_to_build: |
+    # renovate: ruby
+    ~> 3.1.7
+    # renovate: ruby
+    ~> 3.2.8
+    # renovate: ruby
+    ~> 3.3.8
+    # renovate: ruby
+    ~> 3.4.4
 
 on:
   push:
@@ -30,7 +38,8 @@ jobs:
           import json, os
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("ruby_versions=")
-              json.dump(os.environ["ruby_versions_to_build"].split(" "), output)
+              versions = [x.split()[1] for line in os.environ["ruby_versions_to_build"].split("\n") if not line.startswith("#")]
+              json.dump(versions, output)
               output.write("\n")
   build-linux:
     needs: generate-matrix
