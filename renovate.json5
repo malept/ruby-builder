@@ -17,5 +17,7 @@
       ],
       "versioningTemplate": "ruby"
     }
-  ]
+  ],
+  // Need to specify a non-null value for the custom manager
+  "rangeStrategy": "auto",
 }
