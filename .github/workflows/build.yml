@@ -12,7 +12,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
       - name: Lint
         run: mise run lint
@@ -49,7 +49,7 @@ jobs:
     container:
       image: ${{ matrix.distro }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Setup variables
         id: variables
         run: ./scripts/setup-variables.sh ${{ matrix.distro }} ${{ matrix.ruby_version }}
@@ -57,8 +57,8 @@ jobs:
         run: ./scripts/setup-container.sh ${{ steps.variables.outputs.distro_name }} ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
-      - uses: asdf-vm/actions/setup@v3
-      - uses: asdf-vm/actions/install@v3
+      - uses: asdf-vm/actions/setup@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # v3
+      - uses: asdf-vm/actions/install@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # v3
         env:
           RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.variables.outputs.yjit_arg }}
       - name: Ruby version
@@ -75,7 +75,7 @@ jobs:
         id: archive_ruby
         run: ./scripts/archive-ruby.sh ${{ steps.variables.outputs.distro_name }} ${{ steps.variables.outputs.distro_version }} ${{ matrix.ruby_version }}
       - name: Upload Ruby tarball as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ${{ steps.archive_ruby.outputs.ruby_tarball_filename }}
           path: ${{ steps.archive_ruby.outputs.ruby_tarball_path }}
@@ -87,7 +87,7 @@ jobs:
         ruby_version: ${{ fromJson(needs.generate-matrix.outputs.ruby_versions) }}
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Ensure recent bash is installed
         run: brew install bash
       - name: Setup variables
@@ -97,8 +97,8 @@ jobs:
         run: ./scripts/setup-macos.sh ${{ matrix.ruby_version }}
       - name: Set up .tool-versions
         run: ./scripts/set-tool-versions.sh ${{ matrix.ruby_version }}
-      - uses: asdf-vm/actions/setup@v3
-      - uses: asdf-vm/actions/install@v3
+      - uses: asdf-vm/actions/setup@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # v3
+      - uses: asdf-vm/actions/install@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # v3
         env:
           RUBY_CONFIGURE_OPTS: --enable-load-relative ${{ steps.variables.outputs.yjit_arg }}
       - name: Ruby version
@@ -115,7 +115,7 @@ jobs:
         id: archive_ruby
         run: ./scripts/archive-ruby.sh ${{ steps.variables.outputs.distro_name }} ${{ steps.variables.outputs.distro_version }} ${{ matrix.ruby_version }}
       - name: Upload Ruby tarball as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ${{ steps.archive_ruby.outputs.ruby_tarball_filename }}
           path: ${{ steps.archive_ruby.outputs.ruby_tarball_path }}
@@ -130,7 +130,7 @@ jobs:
       id-token: write
       attestations: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Update binaries tag to latest commit in main
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
         run: |
@@ -141,7 +141,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Download Ruby tarballs from artifact repository
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           merge-multiple: true
       - name: Generate checksums
@@ -152,7 +152,7 @@ jobs:
         env:
           TZ: UTC
       - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v2.2.0
+        uses: actions/attest-build-provenance@520d128f165991a6c774bcb264f323e3d70747f4 # v2.2.0
         with:
           subject-checksums: checksums.txt
       - name: Upload to binaries release
