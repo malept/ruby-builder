@@ -38,7 +38,7 @@ jobs:
           import json, os
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("ruby_versions=")
-              versions = [x.split()[1] for line in os.environ["ruby_versions_to_build"].split("\n") if not line.startswith("#")]
+              versions = [line.split()[1] for line in os.environ["ruby_versions_to_build"].split("\n") if not line.startswith("#")]
               json.dump(versions, output)
               output.write("\n")
   build-linux:
