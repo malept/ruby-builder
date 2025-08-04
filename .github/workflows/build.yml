@@ -36,6 +36,8 @@ jobs:
         run: |
           #!/usr/bin/env python3
           import json, os
+          print("os.environ[ruby_versions_to_build]")
+          print(os.environ["ruby_versions_to_build"])
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("ruby_versions=")
               versions = [line.split()[1] for line in os.environ["ruby_versions_to_build"].split("\n") if not line.startswith("#")]
