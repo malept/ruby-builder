@@ -4,20 +4,4 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests"
   ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "datasourceTemplate": "ruby-version",
-      "depNameTemplate": "ruby",
-      "managerFilePatterns": [
-        ".github/workflows/build.yml"
-      ],
-      "matchStrings": [
-        "# renovate: (?<depName>ruby)[\\r\\n]+(?<indentation>\\s*)?(?<currentValue>~> \\S+)"
-      ],
-      "versioningTemplate": "ruby"
-    }
-  ],
-  // Need to specify a non-null value for the custom manager
-  "rangeStrategy": "auto",
 }
