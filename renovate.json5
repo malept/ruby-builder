@@ -4,7 +4,7 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests"
   ],
-  "ruby": {
+  "ruby-version": {
     "managerFilePatterns": ["versions/*/.ruby-version"],
   },
 }
