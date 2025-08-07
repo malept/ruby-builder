@@ -4,6 +4,13 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests"
   ],
+  "packageRules": [
+    {
+      "enabled": false,
+      "matchManagers": ["ruby-version"],
+      "matchUpdateTypes": ["major", "minor"],
+    },
+  ],
   "ruby-version": {
     "managerFilePatterns": ["versions/*/.ruby-version"],
   },
