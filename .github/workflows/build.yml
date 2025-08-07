@@ -1,14 +1,4 @@
 name: Build
-env:
-  ruby_versions_to_build: |
-    # renovate: ruby
-    ~> 3.1.7
-    # renovate: ruby
-    ~> 3.2.8
-    # renovate: ruby
-    ~> 3.3.8
-    # renovate: ruby
-    ~> 3.4.4
 
 on:
   push:
@@ -36,9 +26,10 @@ jobs:
         run: |
           #!/usr/bin/env python3
           import json, os
+          from pathlib import Path
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("ruby_versions=")
-              versions = [line.split()[1] for line in os.environ["ruby_versions_to_build"].strip().split("\n") if not line.startswith("#")]
+              versions = [p.read_text().strip() for p in Path("./versions").glob("*/.ruby-version")]
               json.dump(versions, output)
               output.write("\n")
   build-linux:
