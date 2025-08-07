@@ -22,16 +22,7 @@ jobs:
     steps:
       - name: Generate JSON
         id: generate
-        shell: python
-        run: |
-          #!/usr/bin/env python3
-          import json, os
-          from pathlib import Path
-          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
-              output.write("ruby_versions=")
-              versions = [p.read_text().strip() for p in Path("./versions").glob("*/.ruby-version")]
-              json.dump(versions, output)
-              output.write("\n")
+        run: ./scripts/generate-matrix.py
   build-linux:
     needs: generate-matrix
     strategy:
