@@ -5,6 +5,11 @@ act = "latest"
 depends = ["fmt:*"]
 description = "Reformat source files"
 
+[tasks."fmt:ruff"]
+tools.ruff = "latest"
+description = "Reformat Python files"
+run = "ruff format"
+
 [tasks."fmt:shfmt"]
 tools.shfmt = "latest"
 description = "Reformat shell source files"
@@ -26,6 +31,16 @@ tools.actionlint = "latest"
 description = "Lint GitHub Actions workflows"
 run = "actionlint"
 sources = [".github/workflows/*.yml"]
+
+[tasks."lint:ruff"]
+tools.ruff = "latest"
+description = "Lint Python files with ruff"
+run = "ruff check --diff"
+
+[tasks."lint:ruff-format"]
+tools.ruff = "latest"
+description = "Ensure Python files have already been formatted with ruff"
+run = "ruff format --diff"
 
 [tasks."lint:shellcheck"]
 tools.shellcheck = "latest"

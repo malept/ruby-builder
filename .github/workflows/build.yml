@@ -1,14 +1,4 @@
 name: Build
-env:
-  ruby_versions_to_build: |
-    # renovate: ruby
-    ~> 3.1.7
-    # renovate: ruby
-    ~> 3.2.8
-    # renovate: ruby
-    ~> 3.3.8
-    # renovate: ruby
-    ~> 3.4.4
 
 on:
   push:
@@ -30,17 +20,10 @@ jobs:
     outputs:
       ruby_versions: ${{ steps.generate.outputs.ruby_versions }}
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Generate JSON
         id: generate
-        shell: python
-        run: |
-          #!/usr/bin/env python3
-          import json, os
-          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
-              output.write("ruby_versions=")
-              versions = [line.split()[1] for line in os.environ["ruby_versions_to_build"].strip().split("\n") if not line.startswith("#")]
-              json.dump(versions, output)
-              output.write("\n")
+        run: ./scripts/generate-matrix.py
   build-linux:
     needs: generate-matrix
     strategy:
