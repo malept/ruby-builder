@@ -19,6 +19,6 @@ if enable_yjit "$ruby_version"; then
 fi
 
 persist_value os "$(echo "$os" | awk '{ print tolower($0) }')"
-persist_value arch "$(uname -m)"
+persist_value arch "$(normalize_arch)"
 persist_value distro_name "$(echo "$distro" | cut -d: -f1)"
 persist_value distro_version "$(echo "$distro" | cut -d: -f2)"

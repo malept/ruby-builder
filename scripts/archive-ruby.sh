@@ -20,7 +20,7 @@ binary_tarball_filename() {
   # long arguments documented in README.md.
   local kernel
   kernel="$(uname -s)"
-  echo "ruby-${ruby_version}_${kernel,,}-$(uname -m)_${distro_name}-${distro_version}.tar.xz"
+  echo "ruby-${ruby_version}_${kernel,,}-$(normalize_arch)_${distro_name}-${distro_version}.tar.xz"
 }
 
 tarball_filename="$(binary_tarball_filename)"
