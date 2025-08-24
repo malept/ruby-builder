@@ -22,6 +22,21 @@ fail() {
   exit 1
 }
 
+# Converts stdin to lowercase.
+to_lowercase() {
+  awk '{ print tolower($0) }'
+}
+
+# Normalizes the value of `uname -m` (AKA `uname --machine` with GNU coreutils).
+normalize_arch() {
+  arch="$(uname -m | to_lowercase)"
+  case "$arch" in
+  x86_64 | amd64) echo amd64 ;;
+  arm64 | aarch64) echo aarch64 ;;
+  *) fail "Unsupported arch: $arch" ;;
+  esac
+}
+
 # Persists a value to the detected CI provider. On GitHub Actions, add
 # the name to the outputs of the given job step. On all other CI
 # providers, add the uppercased + prefixed with `RUBY_BUILDER_`
