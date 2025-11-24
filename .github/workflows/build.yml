@@ -121,6 +121,9 @@ jobs:
       # Needed for build provenance
       id-token: write
       attestations: write
+    concurrency:
+      group: upload-tarballs
+      cancel-in-progress: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
       - name: Update binaries tag to latest commit in main
