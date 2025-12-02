@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - uses: jdx/mise-action@d16887ba50704baed7de72bd1e82e04391e4457a # v3.5.0
       - name: Lint
         run: mise run lint
@@ -20,7 +20,7 @@ jobs:
     outputs:
       ruby_versions: ${{ steps.generate.outputs.ruby_versions }}
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Generate JSON
         id: generate
         run: ./scripts/generate-matrix.py
@@ -41,7 +41,7 @@ jobs:
     container:
       image: ${{ matrix.distro }}
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Setup variables
         id: variables
         run: ./scripts/setup-variables.sh ${{ matrix.distro }} ${{ matrix.ruby_version }}
@@ -79,7 +79,7 @@ jobs:
         ruby_version: ${{ fromJson(needs.generate-matrix.outputs.ruby_versions) }}
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Ensure recent bash is installed
         run: brew install bash
       - name: Setup variables
@@ -125,7 +125,7 @@ jobs:
       group: upload-tarballs
       cancel-in-progress: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Update binaries tag to latest commit in main
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
         run: |
