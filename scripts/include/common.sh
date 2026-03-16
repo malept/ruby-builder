@@ -1,21 +1,5 @@
 #!/usr/bin/env sh
 
-# Determines whether a given Ruby version has the --enable-yjit flag
-# in its ./configure script.
-enable_yjit() {
-  version="$1"
-  major_version="$(echo "$version" | cut -d. -f1)"
-  minor_version="$(echo "$version" | cut -d. -f2)"
-
-  # Why: don't care about subshell overhead in this case.
-  # shellcheck disable=SC2235
-  if test "$major_version" -gt 3 || (test "$major_version" -eq 3 && test "$minor_version" -ge 2); then
-    return 0
-  else
-    return 1
-  fi
-}
-
 # Prints the provided message to stderr and exits with return code 1.
 fail() {
   echo "$1" >&2
