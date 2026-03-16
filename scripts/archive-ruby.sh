@@ -26,7 +26,7 @@ binary_tarball_filename() {
 tarball_filename="$(binary_tarball_filename)"
 tarball_path="$BUILDER_DIR/$tarball_filename"
 
-tar --xz --directory="$HOME/.asdf/installs/ruby/$ruby_version" --create \
+tar --xz --directory="$(mise where ruby@"$ruby_version")" --create \
   --file "$tarball_path" .
 
 ls -l "$tarball_path"

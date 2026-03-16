@@ -12,6 +12,6 @@ if [[ "$expected_version" != "$actual_version" ]]; then
   fail "The actual Ruby version ($actual_version) does not match the expected version ($expected_version)"
 fi
 
-location="$(asdf where ruby "$expected_version")"
+location="$(mise where ruby@"$expected_version")"
 
 persist_value install_location "$location"
