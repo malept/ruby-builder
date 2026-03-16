@@ -57,7 +57,7 @@ jobs:
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
       - name: Generate SBOM
-        uses: anchore/sbom-action@deef08a0db64bfad603422135db61477b16cef56 # v0.22.1
+        uses: anchore/sbom-action@57aae528053a48a3f6235f2d9461b05fbcb7366d # v0.23.1
         with:
           artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.variables.outputs.os }}-${{ steps.variables.outputs.arch }}_${{ steps.variables.outputs.distro_name }}-${{ steps.variables.outputs.distro_version }}.sbom.spdx.json
           path: ${{ steps.ruby.outputs.install_location }}
@@ -97,7 +97,7 @@ jobs:
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
       - name: Generate SBOM
-        uses: anchore/sbom-action@deef08a0db64bfad603422135db61477b16cef56 # v0.22.1
+        uses: anchore/sbom-action@57aae528053a48a3f6235f2d9461b05fbcb7366d # v0.23.1
         with:
           artifact-name: ruby-${{ matrix.ruby_version }}_${{ steps.variables.outputs.os }}-${{ steps.variables.outputs.arch }}_${{ steps.variables.outputs.distro_name }}-${{ steps.variables.outputs.distro_version }}.sbom.spdx.json
           path: ${{ steps.ruby.outputs.install_location }}
