@@ -8,10 +8,9 @@ version="$1"
 # shellcheck source=scripts/include/common.sh
 . "$DIR/include/common.sh"
 
-extra_brew_pkgs="xz"
-if enable_yjit "$version"; then
-  extra_brew_pkgs="$extra_brew_pkgs rust"
-fi
+# xz is used for creating the tarballs
+# rust is for YJIT/ZJIT
+extra_brew_pkgs="xz rust"
 
 # List from: https://github.com/rbenv/ruby-build/wiki#macos
 # shellcheck disable=SC2086

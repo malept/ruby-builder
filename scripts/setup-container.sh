@@ -12,17 +12,13 @@ distro_name="$1"
 version="$2"
 
 # xz is used for creating the tarballs
-extra_alpine_pkgs="xz file"
-extra_ubuntu_pkgs="xz-utils file"
+# rust is for YJIT/ZJIT
+extra_alpine_pkgs="xz file rust"
+extra_ubuntu_pkgs="xz-utils file rustc"
 if test -n "$ACT"; then
   # When using act, needs nodejs. Not necessary in hosted GH actions runner.
   extra_alpine_pkgs="$extra_alpine_pkgs nodejs"
   extra_ubuntu_pkgs="$extra_ubuntu_pkgs nodejs"
-fi
-
-if enable_yjit "$version"; then
-  extra_alpine_pkgs="$extra_alpine_pkgs rust"
-  extra_ubuntu_pkgs="$extra_ubuntu_pkgs rustc"
 fi
 
 case "$distro_name" in
