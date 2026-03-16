@@ -14,8 +14,8 @@ distro="$1"
 ruby_version="$2"
 os="$(uname -s)"
 
-if enable_yjit "$ruby_version"; then
-  persist_value yjit_arg --enable-yjit
+if enable_zjit "$ruby_version"; then
+  persist_value zjit_arg --enable-zjit
 fi
 
 persist_value os "$(echo "$os" | awk '{ print tolower($0) }')"

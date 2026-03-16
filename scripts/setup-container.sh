@@ -20,11 +20,6 @@ if test -n "$ACT"; then
   extra_ubuntu_pkgs="$extra_ubuntu_pkgs nodejs"
 fi
 
-if enable_yjit "$version"; then
-  extra_alpine_pkgs="$extra_alpine_pkgs rust"
-  extra_ubuntu_pkgs="$extra_ubuntu_pkgs rustc"
-fi
-
 case "$distro_name" in
 alpine)
   # shellcheck disable=SC2086
@@ -47,3 +42,8 @@ ubuntu)
   fail "Unsupported distro ($distro_name)"
   ;;
 esac
+
+# Install Rust for YJIT/ZJIT
+# Per: https://rust-lang.org/learn/get-started/
+curl --proto '=https' --tlsv1.2 --silent --show-error --fail https://sh.rustup.rs | sh -s -- -y
+prepend_path "$HOME/.cargo/bin"

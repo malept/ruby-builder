@@ -1,19 +1,13 @@
 #!/usr/bin/env sh
 
-# Determines whether a given Ruby version has the --enable-yjit flag
+# Determines whether a given Ruby version has the --enable-zjit flag
 # in its ./configure script.
-enable_yjit() {
+enable_zjit() {
   version="$1"
   major_version="$(echo "$version" | cut -d. -f1)"
-  minor_version="$(echo "$version" | cut -d. -f2)"
 
-  # Why: don't care about subshell overhead in this case.
-  # shellcheck disable=SC2235
-  if test "$major_version" -gt 3 || (test "$major_version" -eq 3 && test "$minor_version" -ge 2); then
-    return 0
-  else
-    return 1
-  fi
+  # ZJIT exists in Ruby 4.0 and later.
+  test "$major_version" -ge 4
 }
 
 # Prints the provided message to stderr and exits with return code 1.
@@ -48,5 +42,16 @@ persist_value() {
     echo "$name=$value" >>"$GITHUB_OUTPUT"
   else
     echo "export RUBY_BUILDER_$(echo "$name" | awk '{ print toupper($0) }')=\"$value\"" >>"$BASH_ENV"
+  fi
+}
+
+prepend_path() {
+  binPath="$1"
+  if test -n "$GITHUB_PATH"; then
+    echo "$binPath" >>"$GITHUB_PATH"
+  elif test -n "$BASH_ENV"; then
+    echo "export PATH=\"$binPath:$PATH\"" >>"$BASH_ENV"
+  else
+    fail "Unknown CI provider, cannot prepend to PATH"
   fi
 }
