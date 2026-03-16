@@ -12,9 +12,8 @@ distro_name="$1"
 version="$2"
 
 # xz is used for creating the tarballs
-# rust is for YJIT/ZJIT
-extra_alpine_pkgs="xz file rust"
-extra_ubuntu_pkgs="xz-utils file rustc"
+extra_alpine_pkgs="xz file"
+extra_ubuntu_pkgs="xz-utils file"
 if test -n "$ACT"; then
   # When using act, needs nodejs. Not necessary in hosted GH actions runner.
   extra_alpine_pkgs="$extra_alpine_pkgs nodejs"
@@ -43,3 +42,7 @@ ubuntu)
   fail "Unsupported distro ($distro_name)"
   ;;
 esac
+
+# Install Rust for YJIT/ZJIT
+# Per: https://rust-lang.org/learn/get-started/
+curl --proto '=https' --tlsv1.2 --silent --show-error --fail https://sh.rustup.rs | sh
