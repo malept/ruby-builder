@@ -51,9 +51,10 @@ jobs:
         with:
           mise_toml: |
             [settings.ruby]
-            compile = false
+            compile = true
+            ruby_build_opts = "--enable-load-relative ${{ steps.variables.outputs.yjit_arg }}"
             [tools]
-            ruby = { version = "${{ matrix.ruby_version }}", ruby_build_opts = "--enable-load-relative ${{ steps.variables.outputs.yjit_arg }}" }
+            ruby = "${{ matrix.ruby_version }}"
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
@@ -92,9 +93,10 @@ jobs:
         with:
           mise_toml: |
             [settings.ruby]
-            compile = false
+            compile = true
+            ruby_build_opts = "--enable-load-relative ${{ steps.variables.outputs.yjit_arg }}"
             [tools]
-            ruby = { version = "${{ matrix.ruby_version }}", ruby_build_opts = "--enable-load-relative ${{ steps.variables.outputs.yjit_arg }}" }
+            ruby = "${{ matrix.ruby_version }}"
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
