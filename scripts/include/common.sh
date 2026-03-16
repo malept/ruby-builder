@@ -1,5 +1,15 @@
 #!/usr/bin/env sh
 
+# Determines whether a given Ruby version has the --enable-zjit flag
+# in its ./configure script.
+enable_zjit() {
+  version="$1"
+  major_version="$(echo "$version" | cut -d. -f1)"
+
+  # ZJIT exists in Ruby 4.0 and later.
+  test "$major_version" -ge 4
+}
+
 # Prints the provided message to stderr and exits with return code 1.
 fail() {
   echo "$1" >&2

@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup variables
         id: variables
-        run: ./scripts/setup-variables.sh ${{ matrix.distro }}
+        run: ./scripts/setup-variables.sh ${{ matrix.distro }} ${{ matrix.ruby_version }}
       - name: Setup container
         run: ./scripts/setup-container.sh ${{ steps.variables.outputs.distro_name }} ${{ matrix.ruby_version }}
       - uses: jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
@@ -52,7 +52,7 @@ jobs:
           mise_toml: |
             [settings.ruby]
             compile = true
-            ruby_build_opts = "--enable-load-relative --enable-yjit"
+            ruby_build_opts = "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
             [tools]
             ruby = "${{ matrix.ruby_version }}"
       - name: Ruby version
@@ -86,7 +86,7 @@ jobs:
         run: brew install bash
       - name: Setup variables
         id: variables
-        run: ./scripts/setup-variables.sh none:none
+        run: ./scripts/setup-variables.sh none:none ${{ matrix.ruby_version }}
       - name: Set up macOS
         run: ./scripts/setup-macos.sh ${{ matrix.ruby_version }}
       - uses: jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
@@ -94,7 +94,7 @@ jobs:
           mise_toml: |
             [settings.ruby]
             compile = true
-            ruby_build_opts = "--enable-load-relative --enable-yjit"
+            ruby_build_opts = "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
             [tools]
             ruby = "${{ matrix.ruby_version }}"
       - name: Ruby version

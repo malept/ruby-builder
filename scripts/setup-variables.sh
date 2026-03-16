@@ -11,7 +11,12 @@ if test -z "$1" || test -z "$2"; then
 fi
 
 distro="$1"
+ruby_version="$2"
 os="$(uname -s)"
+
+if enable_zjit "$ruby_version"; then
+  persist_value zjit_arg --enable-zjit
+fi
 
 persist_value os "$(echo "$os" | awk '{ print tolower($0) }')"
 persist_value arch "$(normalize_arch)"
