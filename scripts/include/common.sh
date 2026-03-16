@@ -44,3 +44,14 @@ persist_value() {
     echo "export RUBY_BUILDER_$(echo "$name" | awk '{ print toupper($0) }')=\"$value\"" >>"$BASH_ENV"
   fi
 }
+
+prepend_path() {
+  binPath="$1"
+  if test -n "$GITHUB_PATH"; then
+    echo "$binPath" >>"$GITHUB_PATH"
+  elif test -n "$BASH_ENV"; then
+    echo "export PATH=\"$binPath:$PATH\"" >>"$BASH_ENV"
+  else
+    fail "Unknown CI provider, cannot prepend to PATH"
+  fi
+}
