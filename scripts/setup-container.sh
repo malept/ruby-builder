@@ -45,4 +45,4 @@ esac
 
 # Install Rust for YJIT/ZJIT
 # Per: https://rust-lang.org/learn/get-started/
-curl --proto '=https' --tlsv1.2 --silent --show-error --fail https://sh.rustup.rs | sh
+curl --proto '=https' --tlsv1.2 --silent --show-error --fail https://sh.rustup.rs | sh -s -- -y
