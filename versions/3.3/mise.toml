@@ -1,2 +1,2 @@
 [tools]
-ruby = { version = "3.3", compile = true }
+ruby = "3.3"
