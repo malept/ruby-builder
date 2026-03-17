@@ -51,12 +51,10 @@ jobs:
         with:
           cache: false
           log_level: info
-          mise_toml: |
-            [settings.ruby]
-            compile = true
-            ruby_build_opts = "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
-            [tools]
-            ruby = "${{ matrix.ruby_version }}"
+          working_directory: versions/${{ matrix.ruby_version }}
+        environment:
+          MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
+          MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
@@ -95,12 +93,10 @@ jobs:
         with:
           cache: false
           log_level: info
-          mise_toml: |
-            [settings.ruby]
-            compile = true
-            ruby_build_opts = "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
-            [tools]
-            ruby = "${{ matrix.ruby_version }}"
+          working_directory: versions/${{ matrix.ruby_version }}
+        environment:
+          MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
+          MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}

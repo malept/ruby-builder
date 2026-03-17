@@ -1,0 +1,2 @@
+[tools]
+ruby = { version = "3.2", compile = true }
