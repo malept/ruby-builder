@@ -52,7 +52,7 @@ jobs:
           install: false
       - name: Build Ruby
         run: |
-          mise trust --cd "$(pwd)/versions/${{ matrix.ruby_version }}/mise.toml"
+          mise trust "$(pwd)/versions/${{ matrix.ruby_version }}/mise.toml"
           mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
@@ -96,7 +96,7 @@ jobs:
           install: false
       - name: Build Ruby
         run: |
-          mise trust --cd "$(pwd)/versions/${{ matrix.ruby_version }}/mise.toml"
+          mise trust "$(pwd)/versions/${{ matrix.ruby_version }}/mise.toml"
           mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
