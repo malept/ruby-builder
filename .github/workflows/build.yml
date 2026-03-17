@@ -49,9 +49,12 @@ jobs:
         run: ./scripts/setup-container.sh ${{ steps.variables.outputs.distro_name }} ${{ matrix.ruby_version }}
       - uses: jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
         with:
-          cache: false
-          log_level: info
-          working_directory: versions/${{ matrix.ruby_version }}
+          install: false
+      - name: Build Ruby
+        run: |
+          mise trust
+          mise install
+        working-directory: versions/${{ matrix.ruby_version }}
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
@@ -91,13 +94,15 @@ jobs:
         run: ./scripts/setup-macos.sh ${{ matrix.ruby_version }}
       - uses: jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
         with:
-          cache: false
-          log_level: info
-          working_directory: versions/${{ matrix.ruby_version }}
+          install: false
+      - name: Build Ruby
+        run: |
+          mise trust
+          mise install
+        working-directory: versions/${{ matrix.ruby_version }}
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
-          MISE_RUBY_COMPILE: "true"
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
