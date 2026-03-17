@@ -52,7 +52,7 @@ jobs:
           cache: false
           log_level: info
           working_directory: versions/${{ matrix.ruby_version }}
-        environment:
+        env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
       - name: Ruby version
@@ -94,7 +94,7 @@ jobs:
           cache: false
           log_level: info
           working_directory: versions/${{ matrix.ruby_version }}
-        environment:
+        env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
           MISE_RUBY_COMPILE: "true"
