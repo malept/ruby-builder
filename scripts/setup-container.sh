@@ -36,7 +36,7 @@ ubuntu)
     rm nodesource_setup.sh
   fi
   # shellcheck disable=SC2086
-  apt-get install -y git autoconf patch build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev $extra_ubuntu_pkgs
+  DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install --yes git autoconf patch build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev $extra_ubuntu_pkgs
   ;;
 *)
   fail "Unsupported distro ($distro_name)"

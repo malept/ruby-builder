@@ -49,14 +49,15 @@ jobs:
         run: ./scripts/setup-container.sh ${{ steps.variables.outputs.distro_name }} ${{ matrix.ruby_version }}
       - uses: jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
         with:
-          cache: false
-          log_level: info
-          mise_toml: |
-            [settings.ruby]
-            compile = true
-            ruby_build_opts = "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
-            [tools]
-            ruby = "${{ matrix.ruby_version }}"
+          install: false
+      - name: Build Ruby
+        run: |
+          mise trust --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+          mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+        env:
+          MISE_CEILING_PATHS: "${{ github.workspace }}/versions"
+          MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
+          MISE_RUBY_COMPILE: true
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
@@ -93,14 +94,15 @@ jobs:
         run: ./scripts/setup-macos.sh ${{ matrix.ruby_version }}
       - uses: jdx/mise-action@c1ecc8f748cd28cdeabf76dab3cccde4ce692fe4 # v4.0.0
         with:
-          cache: false
-          log_level: info
-          mise_toml: |
-            [settings.ruby]
-            compile = true
-            ruby_build_opts = "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
-            [tools]
-            ruby = "${{ matrix.ruby_version }}"
+          install: false
+      - name: Build Ruby
+        run: |
+          mise trust --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+          mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+        env:
+          MISE_CEILING_PATHS: "${{ github.workspace }}/versions"
+          MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
+          MISE_RUBY_COMPILE: true
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}

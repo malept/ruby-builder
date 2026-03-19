@@ -8,8 +8,7 @@ root_dir = (Path(__file__) / ".." / "..").resolve(strict=True)
 with open(os.environ["GITHUB_OUTPUT"], "a") as output:
     output.write("ruby_versions=")
     versions = [
-        p.read_text().strip()
-        for p in sorted((root_dir / "versions").glob("*/.ruby-version"))
+        p.parent.name for p in sorted((root_dir / "versions").glob("*/mise.toml"))
     ]
     json.dump(versions, output)
     output.write("\n")

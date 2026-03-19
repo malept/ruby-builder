@@ -1,23 +1,25 @@
 [tools]
 act = "latest"
+actionlint = "latest"
+ruff = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+taplo = "latest"
 
 [tasks.fmt]
 depends = ["fmt:*"]
 description = "Reformat source files"
 
 [tasks."fmt:ruff"]
-tools.ruff = "latest"
 description = "Reformat Python files"
 run = "ruff format"
 
 [tasks."fmt:shfmt"]
-tools.shfmt = "latest"
 description = "Reformat shell source files"
 run = "shfmt --indent 2 --write scripts/*.sh"
 sources = ["scripts/*.sh"]
 
 [tasks."fmt:taplo"]
-tools.taplo = "latest"
 description = "Reformat TOML files"
 run = "taplo format"
 sources = ["**/*.toml"]
@@ -27,41 +29,34 @@ depends = ["lint:*"]
 description = "Lint source files"
 
 [tasks."lint:actionlint"]
-tools.actionlint = "latest"
 description = "Lint GitHub Actions workflows"
 run = "actionlint"
 sources = [".github/workflows/*.yml"]
 
 [tasks."lint:ruff"]
-tools.ruff = "latest"
 description = "Lint Python files with ruff"
 run = "ruff check --diff"
 
 [tasks."lint:ruff-format"]
-tools.ruff = "latest"
 description = "Ensure Python files have already been formatted with ruff"
 run = "ruff format --diff"
 
 [tasks."lint:shellcheck"]
-tools.shellcheck = "latest"
 description = "Lint shell source files"
 run = "shellcheck scripts/*.sh"
 sources = ["scripts/*.sh"]
 
 [tasks."lint:shfmt"]
-tools.shfmt = "latest"
 description = "shfmt (dry run)"
 run = "shfmt --indent 2 --diff scripts/*.sh"
 sources = ["scripts/*.sh"]
 
 [tasks."lint:taplo-format"]
-tools.taplo = "latest"
 description = "Reformat TOML files (dry run)"
 run = "taplo format --check --diff"
 sources = ["**/*.toml"]
 
 [tasks."lint:taplo"]
-tools.taplo = "latest"
 description = "Lint TOML files"
 run = "taplo lint"
 sources = ["**/*.toml"]
