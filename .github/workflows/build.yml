@@ -52,8 +52,8 @@ jobs:
           install: false
       - name: Build Ruby
         run: |
-          mise trust "$(pwd)/versions/${{ matrix.ruby_version }}/mise.toml"
-          mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+          mise trust --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+          mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}" ruby
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
@@ -96,8 +96,8 @@ jobs:
           install: false
       - name: Build Ruby
         run: |
-          mise trust "$(pwd)/versions/${{ matrix.ruby_version }}/mise.toml"
-          mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+          mise trust --cd "$(pwd)/versions/${{ matrix.ruby_version }}"
+          mise install --cd "$(pwd)/versions/${{ matrix.ruby_version }}" ruby
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions/${{ matrix.ruby_version }}"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
