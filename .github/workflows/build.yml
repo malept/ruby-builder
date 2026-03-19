@@ -57,6 +57,7 @@ jobs:
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
+          MISE_RUBY_COMPILE: true
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
@@ -101,6 +102,7 @@ jobs:
         env:
           MISE_CEILING_PATHS: "${{ github.workspace }}/versions"
           MISE_RUBY_BUILD_OPTS: "--enable-load-relative --enable-yjit ${{ steps.variables.outputs.zjit_arg }}"
+          MISE_RUBY_COMPILE: true
       - name: Ruby version
         id: ruby
         run: ./scripts/validate-ruby.sh ${{ matrix.ruby_version }}
