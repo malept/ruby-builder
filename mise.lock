@@ -33,7 +33,7 @@ checksum = "sha256:3b4fcf9497d1f23afbdd40bfa8e78e154d69754da73c2d792a4152b4f8ae5
 url = "https://github.com/nektos/act/releases/download/v0.2.84/act_Windows_x86_64.zip"
 
 [[tools.actionlint]]
-version = "1.7.11"
+version = "1.7.12"
 backend = "aqua:rhysd/actionlint"
 
 [tools.actionlint."platforms.linux-arm64"]
